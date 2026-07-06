@@ -50,3 +50,45 @@ exports.logout = (req, res) => {
     req.session.destroy();
     res.redirect('/auth/login');
 };
+
+exports.getAdminRegister = (req, res) => {
+    if (req.session.user) {
+        if (req.session.role === 'admin') return res.redirect('/admin/dashboard');
+        return res.redirect('/student/dashboard');
+    }
+    res.render('auth/admin-register', { error: null });
+};
+
+exports.postAdminRegister = async (req, res) => {
+    const { name, email, password, secret_key } = req.body;
+    
+    try {
+        // Simple security check so students can't register as admins
+        if (secret_key !== 'COLLEGE2026') {
+            return res.render('auth/admin-register', { error: 'Invalid Secret Registration Key!' });
+        }
+
+        // Check if email already exists
+        const [existing] = await db.query('SELECT * FROM admins WHERE email = ?', [email]);
+        if (existing.length > 0) {
+            return res.render('auth/admin-register', { error: 'An admin with this email already exists!' });
+        }
+
+        // Hash password and save
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await db.query(
+            'INSERT INTO admins (name, email, password) VALUES (?, ?, ?)',
+            [name, email, hashedPassword]
+        );
+
+        // Automatically log them in after registration
+        const [newAdmin] = await db.query('SELECT * FROM admins WHERE email = ?', [email]);
+        req.session.user = newAdmin[0];
+        req.session.role = 'admin';
+        res.redirect('/admin/dashboard');
+        
+    } catch (error) {
+        console.error(error);
+        res.render('auth/admin-register', { error: 'An error occurred during registration.' });
+    }
+};
