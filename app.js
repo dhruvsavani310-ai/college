@@ -43,6 +43,17 @@ app.get('/', (req, res) => {
     res.redirect('/auth/login');
 });
 
+// Ping route to keep server and database awake (for UptimeRobot)
+app.get('/ping', async (req, res) => {
+    try {
+        const db = require('./config/db');
+        await db.query('SELECT 1');
+        res.status(200).send('Awake');
+    } catch (error) {
+        res.status(500).send('Database sleeping');
+    }
+});
+
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
