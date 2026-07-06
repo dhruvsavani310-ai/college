@@ -7,9 +7,9 @@ exports.getDashboard = async (req, res) => {
         const [studentCount] = await db.query('SELECT COUNT(*) as count FROM students');
         const today = new Date().toISOString().split('T')[0];
         
-        const [presentCount] = await db.query('SELECT COUNT(*) as count FROM attendance WHERE attendance_date = ? AND status = "Present"', [today]);
-        const [absentCount] = await db.query('SELECT COUNT(*) as count FROM attendance WHERE attendance_date = ? AND status = "Absent"', [today]);
-        const [leaveCount] = await db.query('SELECT COUNT(*) as count FROM attendance WHERE attendance_date = ? AND status = "Leave"', [today]);
+        const [presentCount] = await db.query("SELECT COUNT(*) as count FROM attendance WHERE attendance_date = ? AND status = 'Present'", [today]);
+        const [absentCount] = await db.query("SELECT COUNT(*) as count FROM attendance WHERE attendance_date = ? AND status = 'Absent'", [today]);
+        const [leaveCount] = await db.query("SELECT COUNT(*) as count FROM attendance WHERE attendance_date = ? AND status = 'Leave'", [today]);
         const [totalRecords] = await db.query('SELECT COUNT(*) as count FROM attendance');
 
         res.render('admin/dashboard', {
