@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+<div class="d-flex">
+    <%- include('../partials/admin-sidebar') %>
+    <div class="content-wrapper p-4">
+        <div class="mb-4">
+            <a href="/admin/students" class="text-decoration-none"><i class="fa-solid fa-arrow-left me-2"></i> Back to Students</a>
+        </div>
+        
+        <div class="card border-0 shadow-sm" style="max-width: 800px;">
+            <div class="card-body p-4">
+                <h4 class="mb-4">Edit Student</h4>
+                <form action="/admin/students/edit/<%= student.id %>" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Student ID</label>
+                            <input type="text" name="student_id" class="form-control" value="<%= student.student_id %>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="full_name" class="form-control" value="<%= student.full_name %>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="<%= student.email %>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" value="<%= student.phone %>">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Course</label>
+                            <input type="text" name="course" class="form-control" value="<%= student.course %>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Semester</label>
+                            <input type="text" name="semester" class="form-control" value="<%= student.semester %>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="active" <%= student.status === 'active' ? 'selected' : '' %>>Active</option>
+                                <option value="inactive" <%= student.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Password (Leave blank to keep current)</label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary px-4">Update Student</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>

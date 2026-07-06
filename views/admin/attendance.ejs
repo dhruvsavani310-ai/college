@@ -1,0 +1,86 @@
+<%- include('../partials/header') %>
+<div class="d-flex">
+    <%- include('../partials/admin-sidebar') %>
+    <div class="content-wrapper p-4">
+        <h3 class="mb-4">Mark Attendance</h3>
+        
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <form action="/admin/attendance" method="GET" class="row g-3">
+                    <div class="col-md-5">
+                        <label class="form-label">Date</label>
+                        <input type="date" name="date" class="form-control" value="<%= selectedDate %>" required>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label">Course / Class</label>
+                        <select name="course" class="form-select" required>
+                            <option value="">Select Course</option>
+                            <% courses.forEach(c => { %>
+                                <option value="<%= c.course %>" <%= selectedCourse === c.course ? 'selected' : '' %>><%= c.course %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Load Students</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <% if (selectedCourse) { %>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-0">
+                    <form action="/admin/attendance" method="POST">
+                        <input type="hidden" name="date" value="<%= selectedDate %>">
+                        <input type="hidden" name="course" value="<%= selectedCourse %>">
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(students.length === 0) { %>
+                                        <tr><td colspan="3" class="text-center py-4">No active students found for this course</td></tr>
+                                    <% } %>
+                                    <% students.forEach(student => { %>
+                                    <tr>
+                                        <td><span class="badge bg-secondary"><%= student.student_id %></span></td>
+                                        <td class="fw-bold"><%= student.full_name %></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <input type="radio" class="btn-check" name="attendance[student_<%= student.id %>]" id="present_<%= student.id %>" value="Present" <%= student.attendance_status === 'Present' ? 'checked' : (student.attendance_status ? '' : 'checked') %> required>
+                                                <label class="btn btn-outline-success" for="present_<%= student.id %>">Present</label>
+
+                                                <input type="radio" class="btn-check" name="attendance[student_<%= student.id %>]" id="absent_<%= student.id %>" value="Absent" <%= student.attendance_status === 'Absent' ? 'checked' : '' %>>
+                                                <label class="btn btn-outline-danger" for="absent_<%= student.id %>">Absent</label>
+
+                                                <input type="radio" class="btn-check" name="attendance[student_<%= student.id %>]" id="leave_<%= student.id %>" value="Leave" <%= student.attendance_status === 'Leave' ? 'checked' : '' %>>
+                                                <label class="btn btn-outline-warning" for="leave_<%= student.id %>">Leave</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <% if(students.length > 0) { %>
+                        <div class="p-3 border-top bg-light">
+                            <button type="submit" class="btn btn-primary px-4"><i class="fa-solid fa-save me-2"></i> Save Attendance</button>
+                        </div>
+                        <% } %>
+                    </form>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info">
+                Please select a course and date to mark attendance.
+            </div>
+        <% } %>
+    </div>
+</div>
+<%- include('../partials/footer') %>

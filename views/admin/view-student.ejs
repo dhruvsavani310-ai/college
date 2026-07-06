@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+<div class="d-flex">
+    <%- include('../partials/admin-sidebar') %>
+    <div class="content-wrapper p-4">
+        <div class="mb-4">
+            <a href="/admin/students" class="text-decoration-none"><i class="fa-solid fa-arrow-left me-2"></i> Back to Students</a>
+        </div>
+        
+        <div class="card border-0 shadow-sm" style="max-width: 600px;">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-user-graduate fa-4x text-secondary mb-3"></i>
+                    <h4 class="mb-1"><%= student.full_name %></h4>
+                    <span class="badge bg-primary"><%= student.student_id %></span>
+                </div>
+                
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr><th style="width: 30%">Email</th><td><%= student.email %></td></tr>
+                        <tr><th>Phone</th><td><%= student.phone || 'N/A' %></td></tr>
+                        <tr><th>Course</th><td><%= student.course %></td></tr>
+                        <tr><th>Semester</th><td><%= student.semester %></td></tr>
+                        <tr><th>Status</th>
+                            <td>
+                                <% if(student.status === 'active') { %>
+                                    <span class="badge bg-success">Active</span>
+                                <% } else { %>
+                                    <span class="badge bg-danger">Inactive</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <tr><th>Added On</th><td><%= new Date(student.created_at).toLocaleString() %></td></tr>
+                    </tbody>
+                </table>
+                
+                <div class="d-flex gap-2 mt-4">
+                    <a href="/admin/students/edit/<%= student.id %>" class="btn btn-primary w-50">Edit Details</a>
+                    <a href="/admin/report/<%= student.id %>" class="btn btn-info text-white w-50">View Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>

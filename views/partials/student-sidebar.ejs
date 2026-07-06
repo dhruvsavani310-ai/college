@@ -1,0 +1,27 @@
+<div class="sidebar bg-white p-3">
+    <div class="text-center mb-4">
+        <% if(user.profile_photo) { %>
+            <img src="<%= user.profile_photo %>" alt="Profile" class="rounded-circle mb-2" style="width: 80px; height: 80px; object-fit: cover;">
+        <% } else { %>
+            <i class="fa-solid fa-user-graduate fa-3x text-primary mb-2"></i>
+        <% } %>
+        <h5 class="fw-bold"><%= user.full_name %></h5>
+        <span class="badge bg-secondary"><%= user.student_id %></span>
+    </div>
+    <hr>
+    <nav class="nav flex-column">
+        <a class="sidebar-link <%= locals.activePage === 'dashboard' ? 'active' : '' %>" href="/student/dashboard">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+        <a class="sidebar-link <%= locals.activePage === 'attendance' ? 'active' : '' %>" href="/student/attendance">
+            <i class="fa-solid fa-calendar-check"></i> My Attendance
+        </a>
+        <a class="sidebar-link <%= locals.activePage === 'profile' ? 'active' : '' %>" href="/student/profile">
+            <i class="fa-solid fa-id-card"></i> Profile
+        </a>
+        <hr>
+        <a class="sidebar-link text-danger" href="/auth/logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+    </nav>
+</div>

@@ -1,0 +1,70 @@
+<%- include('../partials/header') %>
+<div class="d-flex">
+    <%- include('../partials/admin-sidebar') %>
+    <div class="content-wrapper p-4">
+        <h3 class="mb-4">Admin Dashboard</h3>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-primary text-white h-100 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">Total Students</h6>
+                            <h2 class="mb-0"><%= stats.totalStudents %></h2>
+                        </div>
+                        <i class="fa-solid fa-users fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-success text-white h-100 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">Present Today</h6>
+                            <h2 class="mb-0"><%= stats.presentToday %></h2>
+                        </div>
+                        <i class="fa-solid fa-check-circle fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-danger text-white h-100 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">Absent Today</h6>
+                            <h2 class="mb-0"><%= stats.absentToday %></h2>
+                        </div>
+                        <i class="fa-solid fa-times-circle fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-warning text-dark h-100 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">On Leave Today</h6>
+                            <h2 class="mb-0"><%= stats.leaveToday %></h2>
+                        </div>
+                        <i class="fa-solid fa-bed fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-bold">Quick Actions</h5>
+                <hr>
+                <div class="d-flex gap-3 mt-3">
+                    <a href="/admin/attendance" class="btn btn-primary px-4 py-2"><i class="fa-solid fa-plus me-2"></i> Mark Attendance</a>
+                    <a href="/admin/students/add" class="btn btn-outline-secondary px-4 py-2"><i class="fa-solid fa-user-plus me-2"></i> Add New Student</a>
+                    <a href="/admin/records" class="btn btn-outline-info px-4 py-2"><i class="fa-solid fa-file-lines me-2"></i> View Records</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>
